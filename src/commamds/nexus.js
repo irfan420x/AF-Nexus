@@ -4,7 +4,7 @@ const conversationHistory = {};
 
 export default {
   config: {
-    name: "go",
+    name: "nexus",
     version: "1.0",
     author: "hmm",
     permission: 0,
