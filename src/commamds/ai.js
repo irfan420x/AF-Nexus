@@ -2,13 +2,13 @@ import axios from 'axios';
 
 export default {
   config: {
-    name: 'gemini',
+    name: 'ai',
     description: 'chat with ai',
     usage: '(prefix)ai <query>',
     permission: 0,
     author: "Nexus"
   },
-  Nexus: async ({ api, message, args, nexusMessage }) => {
+  onChat: async ({ api, message, args, nexusMessage }) => {
     if (!args.length) {
       return nexusMessage.reply('Please provide a query');
     }
