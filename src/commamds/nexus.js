@@ -19,7 +19,7 @@ export default {
       return nexusMessage.reply('Chat history cleared!');
     }
     if (!args.length || (args.length === 0)) {
-      return nexusMessage.reply("🤖 You expect me to guess your thoughts? Give me a prompt, genius!");
+      return nexusMessage.reply("Yo, wassup!");
     }
     const prompt = args.join(' ');
     try {
@@ -43,7 +43,7 @@ export default {
             replyManager.registerReplyListener(newResponseMessage.messageID, conversationFunction);
           } catch (error) {
             console.error(error);
-            await api.sendMessage(`⚠️ Error! Seems like something exploded: ${error.message}`, conversationHistory[senderID].threadID, reply.messageID);
+            await api.sendMessage(`⚠️ Damn error : ${error.message}`, conversationHistory[senderID].threadID, reply.messageID);
           }
         }
       };
