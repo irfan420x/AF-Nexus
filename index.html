@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+
+<html lang='en'>
+
+<head>
+    <title>My App Title</title>
+    <meta charset='utf-8'>
+    <meta name='viewport' content='width=device-width, initial-scale=1.0, user-scalable=no' />
+    <meta name="theme-color" content="#000000" />
+    <meta name="navigation-bar-button-color" content="#ff0000" />
+    <meta name="navigation-bar-button-border-color" content="#ff0000" />
+    <meta name="navigation-bar-button-hasshadow" content="false" />
+    <meta name="hide-navigation-bar" content="false" />
+    <style>
+      body{
+        background-color:black;
+      }
+    </style>
+</head>
+<body>
+    <header></header>
+<!--    <nav>
+        <ul>
+            <li><a href='#'>Navigation 1</a></li>
+            <li><a href='#'>Navigation 2</a></li>
+            <li><a href='#'>Navigation 3</a></li>
+        </ul>
+    </nav>-->
+    <section>
+        <article>
+
+<p id="nex" style="font-size:70px;font-weight:bolder;color:blue;text-shadow: orangered 1px 2px 25px;text-align:center">Nexus</p>
+<script>
+var gt= document.getElementById("nex");
+
+setInterval(function(){
+
+
+if(gt.style.color=="green"){
+gt.style.color="blue"
+gt.style.textShadow = "red 1px 2px 25px";
+}
+
+else if(gt.style.color=="blue"){
+gt.style.color="red";
+gt.style.textShadow= "green 1px 2px 25px";
+}
+
+else if(gt.style.color=="red"){
+gt.style.color="green";
+gt.style.textShadow = "blue 1px 2px 25px";
+}
+
+},122)
+
+
+</script>
+
+</article> 
+    </section>
+
+    <footer></footer>
+</body>
+</html>
