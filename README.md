@@ -1,131 +1,74 @@
-# NEXUS FACEBOOK BOT
+# Hey Everyone! <img src="https://media.giphy.com/media/hvRJCLFzcasrR4ia7z/giphy.gif" width="30">
 
-* new generation FCA
-* auto bypass on automation messages
-* simple to make commands of your choice 
+What's up! We're Frank Kaumba & Asta - two devs sharing the same account to build cool stuff together! <img src="https://media.giphy.com/media/WUlplcMpOCEmTGBtBW/giphy.gif" width="30">
 
-[![Version](https://img.shields.io/badge/NEXUS-2.0.0-blueviolet?style=for-the-badge)](https://github.com/Asta-project/Nexusfb)
-[![Node](https://img.shields.io/badge/NODE-16+-darkgreen?style=for-the-badge)](https://nodejs.org)
-[![License](https://img.shields.io/badge/LICENSE-MIT-red?style=for-the-badge)](LICENSE)
+## The DEVS <img src="https://media.giphy.com/media/cn2LKatpvy89MTVR3e/giphy.gif" width="30">
+
+### Frank Kaumba <img src="https://media.giphy.com/media/mGcNjsfWAjY5AEZNw6/giphy.gif" width="30">
+Gaming enthusiast turned developer! I love turning ideas into code:
+- GitHub: [@efkidgamerdev](https://github.com/efkidgamerdev)
+- Facebook: [@efkidgamerdev](https://facebook.com/efkidgamerdev)
+
+### Asta <img src="https://media.giphy.com/media/UVG0BN8TOMKkPOJS6e/giphy.gif" width="30">
+Bot developer and coding enthusiast! Always working on something interesting:
+- GitHub: [@Asta-Bot-V2](https://github.com/Asta-Bot-V2)
+- Facebook: [Asta](https://www.facebook.com/femi.gbemi.58)
+
+## What We Do <img src="https://media.giphy.com/media/u4pJXYaD80n9p0vzU5/giphy.gif" width="30">
+
+Basically, we're all about:
+- Making awesome bots <img src="https://media.giphy.com/media/RbDKaczqWovIugyJmW/giphy.gif" width="20">
+- Gaming <img src="https://media.giphy.com/media/12W5Sg2koWYnwA/giphy.gif" width="20">
+- Learning new tech <img src="https://media.giphy.com/media/KAq5w47R9rmTuvWOWa/giphy.gif" width="20">
+- Building cool projects together <img src="https://media.giphy.com/media/kH1DBkPNyZPOk0BxrM/giphy.gif" width="20">
+
+## Check Out Our Bot! <img src="https://media.giphy.com/media/hu9xj9UtxpoY3oytsh/giphy.gif" width="30">
+
+Our pride and joy:
+[AF-Nexus](https://github.com/AF-Nexus/AF-Nexus.git) - A Facebook bot that's gonna change the game! <img src="https://media.giphy.com/media/3oKIPc07vKKaAMOaoo/giphy.gif" width="30">
+
+## Tech Stack <img src="https://media.giphy.com/media/QssGEmpkyEOhBCb7e1/giphy.gif" width="30">
+
+```text
+Our Daily Drivers:
+━━━━━━━━━━━━━━━
+🎮 Gaming 
+🤖 Bot Development
+💻 chillaxing
+```
+
+## GitHub Stats <img src="https://media.giphy.com/media/W5eoZHPpUx9sapR0eu/giphy.gif" width="30">
+
+<div align="center">
+
+![Frank's GitHub Stats](https://github-readme-stats.vercel.app/api?username=efkidgamerdev&show_icons=true&theme=radical)
+
+![Asta's GitHub Stats](https://github-readme-stats.vercel.app/api?username=Asta-Bot-V2&show_icons=true&theme=tokyonight)
 
 </div>
 
+## Hit Us Up! <img src="https://media.giphy.com/media/LnQjpWaON8nhr21vNW/giphy.gif" width="30">
 
- <p align="center">
-  <a href="#"><img src="http://readme-typing-svg.herokuapp.com?color=cyan&center=true&vCenter=true&multiline=false&lines=NEXUS+BOT+BY+FRANK+AND+ASTA" alt="">
-
-<br>
-
--------
-
-### ⚡ SUPERCHARGE YOUR CHAT
-
-Transform your Facebook Messenger into an intelligent command center with Nexus Bot - where automation meets elegance.
-
-### 🛠️ NEXUS BOT FEATURES 
-
-```ARCHITECTURE 
-📱 MODULAR COMMANDS  │  Advanced chat handling
-🔐 ROBUST SECURITY   │  Multi-level permissions
-📊 SMART ANALYTICS   │  Real-time monitoring
-🔄 STATEFUL CHAT    │  Context-aware replies
-```
-
-### 🚀 QUICK START
-
-```bash
-git clone https://github.com/Asta-project/Nexusfb
-cd nexus-bot
-npm install
-```
-
-### ⚙️ CONFIG
-
-```js
-// config.js
-export default {
-  "botName": "Nexus",
-  "prefix": ".",
-  "adminIds": ["100062160914296", "61557780285734"],
-  "facebookAccount": {
-    "email": "astapersonal1@gmail.com",
-    "password": "asta@0123"
-  },
-  "language": "en",
-  "autoRestart": {
-    "time": null
-  },
-  "optionsFca": {
-    "forceLogin": true,
-    "listenEvents": true,
-    "updatePresence": true,
-    "autoMarkDelivery": true,
-    "autoMarkRead": true,
-    "userAgent": "Mozilla/5.0 (Linux; Android 6.0.1; Moto G (4)) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/85.0.4183.102 Mobile Safari/537.36"
-  }
-}
-```
-
-### 📦 CREATE COMMANDS
-
-```js
-export default {
-config: {
-name: 'hello',// Name of the command
-description: 'Replies with a hello message',//describe the command
-usage: '(prefix)hello',//usage of the command
-permission: 0,// Permission level of the command (0 = everyone, 1 = admins)
-author: "Frank kaumba x Asta"//name of owner of command 
-},
-
-Nexus: async ({ api, message, args, config, nexusMessage, onReply, sendMessage }) => {
-// Send a hello message
-nexusMessage.reply('Hello!');
-//you can also use return 'hello'; buh it's not advisable 
-//you can also use api.sendMessage("hello", message.threadID, message.messageID);
-},
-};
-/*
-api:API object for interacting with the chat platform
-message:Message object containing information about the message that triggered the command
-args: Array of arguments passed to the command
-config: Configuration object for the command
-nexusMessage:Object for sending messages
-onReply: Function to set a reply listener for the command
-// Function to send a message
-*/
-
-//note you can also use run: async or onStart: async
-```
-
-
-### 👑 ARCHITECTS
-
-- **Asta** - *Developer*
-- **Frank Kaumba** - *Developer*
-
-### 📞 CONNECT
-
-```yaml
-Email   : efkidgamer@outlook.com
-Github  : github.com/Asta-project/Nexusfb
-Discord : [Coming Soon]
-```
-
-### 🤝 CONTRIBUTE
-
-1. Fork it
-2. Create your branch (`git checkout -b feature/Amazing`)
-3. Commit (`git commit -m 'Add Amazing'`)
-4. Push (`git push origin feature/Amazing`)
-5. Open PR
+We're always down to:
+- Collab on projects <img src="https://media.giphy.com/media/gF2m2JOyGReppog8hU/giphy.gif" width="20">
+- Chat about coding <img src="https://media.giphy.com/media/llKJGxQ1ESmac/giphy.gif" width="20">
+- Share gaming stuff <img src="https://media.giphy.com/media/13CoXDiaCcCoyk/giphy.gif" width="20">
+- Work on bots together <img src="https://media.giphy.com/media/dxn6fRlTIShoeBr69N/giphy.gif" width="20">
 
 ---
 
 <div align="center">
 
-### Made with 💜 by [Frank](https://github.com/efkidgamerdev) and [Asta](https://gitHub.com/asta-project)
+### Find Us Here <img src="https://media.giphy.com/media/jOz35yxbuhvVQDKrce/giphy.gif" width="30">
 
-*[MIT License](LICENSE) • Contribute with Stars ⭐*
+[![](https://img.shields.io/badge/Frank_Kaumba-%23181717.svg?&style=for-the-badge&logo=github&logoColor=white)](https://github.com/efkidgamerdev)
+[![](https://img.shields.io/badge/Frank_Kaumba-%231877F2.svg?&style=for-the-badge&logo=facebook&logoColor=white)](https://facebook.com/efkidgamerdev)
+
+[![](https://img.shields.io/badge/Asta-%23181717.svg?&style=for-the-badge&logo=github&logoColor=white)](https://github.com/Asta-Bot-V2)
+[![](https://img.shields.io/badge/Asta-%231877F2.svg?&style=for-the-badge&logo=facebook&logoColor=white)](https://www.facebook.com/femi.gbemi.58)
+
+[![](https://img.shields.io/badge/AF_Nexus_Bot-%23181717.svg?&style=for-the-badge&logo=github&logoColor=white)](https://github.com/AF-Nexus/AF-Nexus.git)
+
+**Drop a ⭐ if you like what we do!** <img src="https://media.giphy.com/media/NT40Ohu2kui0tUoXzg/giphy.gif" width="30">
 
 </div>
