@@ -124,8 +124,12 @@ export default async function commandHandler(api, message) {
 
   const messageBody = message.body ? message.body.trim() : '';
 
+    if (config.logging.messageObjects) {
+
   console.log('Message object:', message);
 
+    }
+  
   if (message.type === 'message_reply') {
 
     const originalMessageID = message.messageReply.messageID;
