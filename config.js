@@ -7,6 +7,9 @@ export default {
     "61557780285734",
     "100075528791428"
   ],
+   "logging": {
+    "messageObjects": true // set false is you don't want too much logs in console especially if you're using render 
+  },
   "facebookAccount": {
     "email": "astapersonal1@gmail.com",
     "password": "asta@0123"
