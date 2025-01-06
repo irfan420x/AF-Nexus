@@ -11,8 +11,8 @@ export default {
     "messageObjects": true // set false is you don't want too much logs in console especially if you're using render 
   },
   "facebookAccount": {
-    "email": "astapersonal1@gmail.com",
-    "password": "asta@0123"
+    "email": "",//your email here,buh not available yet
+    "password": ""//password here buh not available wait for update 
   },
   "language": "en",
   "autoRestart": {
