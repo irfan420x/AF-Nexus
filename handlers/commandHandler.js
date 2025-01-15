@@ -215,7 +215,7 @@ const groupPrefix = db.getGroupPrefix(message.threadID) || config.prefix;
 
         const reason = db.readDB().bannedThreads[message.threadID];
 
-        api.sendMessage(`─━━⚠️\n𝖠𝖼𝖼𝖾𝗌𝗌 𝖽𝖾𝗇𝗂𝖾𝖽 𝖦𝗋𝗈𝗎𝗉 𝗁𝖺𝗏𝖾 𝖻𝖾𝖾𝗇 𝖻𝖺𝗇𝗇𝖾𝖽 𝖿𝗋𝗈𝗆 𝗎𝗌𝗂𝗇𝗀 𝖻𝗈𝗍 𝙍𝙚𝙖𝙨𝙤𝙣: ${reason}\n𝙲𝙾𝙽𝚃𝙰𝙲𝚃 𝙱𝙾𝚃 𝙰𝙳𝙼𝙸𝙽`, message.threadID, message.messageID);
+        api.sendMessage(`⚠️\n𝖠𝖼𝖼𝖾𝗌𝗌 𝖽𝖾𝗇𝗂𝖾𝖽 𝖦𝗋𝗈𝗎𝗉 𝗁𝖺𝗏𝖾 𝖻𝖾𝖾𝗇 𝖻𝖺𝗇𝗇𝖾𝖽 𝖿𝗋𝗈𝗆 𝗎𝗌𝗂𝗇𝗀 𝖻𝗈𝗍 𝙍𝙚𝙖𝙨𝙤𝙣: ${reason}\n𝙲𝙾𝙽𝚃𝙰𝙲𝚃 𝙱𝙾𝚃 𝙰𝙳𝙼𝙸𝙽`, message.threadID, message.messageID);
 
         return;
 
@@ -285,7 +285,7 @@ const groupPrefix = db.getGroupPrefix(message.threadID) || config.prefix;
 
         const reason = db.readDB().bannedThreads[message.threadID];
 
-        api.sendMessage(`─⚠️\n𝖠𝖼𝖼𝖾𝗌𝗌 𝖽𝖾𝗇𝗂𝖾𝖽 𝗒𝗈𝗎 𝗁𝖺𝗏𝖾 𝖻𝖾𝖾𝗇 𝖻𝖺𝗇𝗇𝖾𝖽 𝖿𝗋𝗈𝗆 𝗎𝗌𝗂𝗇𝗀 𝖻𝗈𝗍 𝙍𝙚𝙖𝙨𝙤𝙣: ${reason}\n𝙲𝙾𝙽𝚃𝙰𝙲𝚃 𝙱𝙾𝚃 𝙰𝙳𝙼𝙸𝙽`, message.threadID, message.messageID);
+        api.sendMessage(`⚠️\n𝖠𝖼𝖼𝖾𝗌𝗌 𝖽𝖾𝗇𝗂𝖾𝖽 𝗒𝗈𝗎 𝗁𝖺𝗏𝖾 𝖻𝖾𝖾𝗇 𝖻𝖺𝗇𝗇𝖾𝖽 𝖿𝗋𝗈𝗆 𝗎𝗌𝗂𝗇𝗀 𝖻𝗈𝗍 𝙍𝙚𝙖𝙨𝙤𝙣: ${reason}\n𝙲𝙾𝙽𝚃𝙰𝙲𝚃 𝙱𝙾𝚃 𝙰𝙳𝙼𝙸𝙽`, message.threadID, message.messageID);
 
         return;
 
@@ -298,7 +298,7 @@ const groupPrefix = db.getGroupPrefix(message.threadID) || config.prefix;
 
 }
 
-    nexusMessage.reply(` 🛰𝖳𝖧𝖤 𝖡𝖮𝖳 𝖲𝖸𝖲𝖳𝖤𝖬 𝖮𝖯𝖤𝖱𝖠𝖳𝖨𝖮𝖭𝖠𝖫 𝖳𝖸𝖯𝖤 𝖧𝖤𝖫𝖯 𝖳𝖮 𝖲𝖤𝖤 𝖠𝖫𝖫 𝖢𝖮𝖬𝖬𝖠𝖭𝖣𝖲`);
+    nexusMessage.reply(` 🖱️𝖳𝖧𝖤 𝖡𝖮𝖳 𝖲𝖸𝖲𝖳𝖤𝖬 𝖮𝖯𝖤𝖱𝖠𝖳𝖨𝖮𝖭𝖠𝖫 𝖳𝖸𝖯𝖤 𝖧𝖤𝖫𝖯 𝖳𝖮 𝖲𝖤𝖤 𝖠𝖫𝖫 𝖢𝖮𝖬𝖬𝖠𝖭𝖣𝖲`);
 
     return;
 
