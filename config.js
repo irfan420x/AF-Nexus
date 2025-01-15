@@ -1,18 +1,19 @@
 export default {
   "botName": "Nexus",
   "prefix": ".",
-  "nickname": "Nexus bot",
+  "nickname": "Nexusbot",
   "adminIds": [
     "100062160914296",
     "61557780285734",
-    "100075528791428"
+    "100075528791428",
+    "61571509256532"
   ],
-   "logging": {
-    "messageObjects": true // set false is you don't want too much logs in console especially if you're using render 
-  },
   "facebookAccount": {
-    "email": "",//your email here,buh not available yet
-    "password": ""//password here buh not available wait for update 
+    "email": "bultelakku@gufum.com",
+    "password": "asta@0123"
+  },
+  "logging": {
+    "messageObjects": true
   },
   "language": "en",
   "autoRestart": {

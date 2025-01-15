@@ -11,9 +11,11 @@
   "license": "ISC",
   "dependencies": {
     "@babel/parser": "^7.26.3",
+    "@google/generative-ai": "^0.21.0",
     "@xaviabot/fb-downloader": "^1.0.14",
     "acorn": "^8.14.0",
     "axios": "^1.7.9",
+    "better-sqlite3": "^11.7.2",
     "chalk": "^5.3.0",
     "chatbox-fca-remake": "^4.1.1",
     "child-process-ext": "^3.0.2",
@@ -21,6 +23,7 @@
     "esm": "^3.2.25",
     "facebook-chat-api": "^1.8.0",
     "figlet": "^1.8.0",
+    "googleapis": "^144.0.0",
     "gradient-string": "^3.0.0",
     "module": "^1.2.5",
     "moment-timezone": "^0.5.46",
@@ -28,7 +31,11 @@
     "node-cron": "^3.0.3",
     "node-fetch": "^3.3.2",
     "pastebin-js": "^1.0.6",
+    "ryuu-fca-api": "^3.2.5",
+    "sqlite": "^5.1.1",
+    "sqlite3": "^5.1.7",
     "systeminformation": "^5.23.23",
+    "vm": "^0.1.0",
     "ws3-fca": "^1.0.12",
     "yt-search": "^2.12.1"
   }
