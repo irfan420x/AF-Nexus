@@ -119,17 +119,58 @@ export default async function commandHandler(api, message) {
     },
 
   };
+ api.getUserInfo(message.senderID, async (err, userInfo) => {
 
+  if (err) {
+
+    console.error(err);
+
+    return;
+
+  }
+
+  const userName = userInfo[message.senderID].name;
+
+  db.setUser(message.senderID, {
+
+    name: userName,
+
+  });
+
+});
+
+  api.getThreadInfo(message.threadID, async (err, threadInfo) => {
   const groupPrefix = db.getGroupPrefix(message.threadID) || config.prefix;
 
+if (err) {
+
+console.error(err);
+
+return;
+
+}
+
+const threadName = threadInfo.name;
+
+db.setGroup(message.threadID, {
+
+name: threadName,
+prefix : groupPrefix,
+
+});
+
+});
+
+
+const groupPrefix = db.getGroupPrefix(message.threadID) || config.prefix;
   const messageBody = message.body ? message.body.trim() : '';
 
-    if (config.logging.messageObjects) {
+  if (config.logging.messageObjects) {
 
-  console.log('Message object:', message);
+    console.log('Message object:', message);
 
-    }
-  
+  }
+
   if (message.type === 'message_reply') {
 
     const originalMessageID = message.messageReply.messageID;
@@ -138,7 +179,7 @@ export default async function commandHandler(api, message) {
 
     if (replyListener) {
 
-await replyListener.callback(message);
+      await replyListener.callback(message);
 
       delete replyManager.replyListeners[originalMessageID];
 
@@ -148,52 +189,127 @@ await replyListener.callback(message);
 
   }
 
-if (db.isBannedUser(message.senderID)) {
-
-      const reason = db.readDB().bannedUsers[message.senderID];
-
-      nexusMessage.reply(`You have been banned from using this bot. Reason: ${reason}`);
-
-      return;
-
-    }
-
   if (message.type === 'typ' || message.type === 'presence') {
 
     return;
 
   }
 
-for (const command of commands.values()) {
+  for (const command of commands.values()) {
 
-  if (command.onChat && typeof command.onChat === 'function' && messageBody.toLowerCase().startsWith(command.config.name.toLowerCase() + ' ')) {
+    if (command.onChat && typeof command.onChat === 'function' && messageBody.toLowerCase().startsWith(command.config.name.toLowerCase() + ' ')) {
 
-    console.log(chalk.green(`Calling onChat function for command: ${command.config.name}`));
+      const args = messageBody.trim().split(' ').slice(1);
 
-    const args = messageBody.trim().split(' ').slice(1);
+      if (db.isBannedUser(message.senderID)) {
 
-    command.onChat({ api, message, args, config, nexusMessage, onReply: async (reply) => { await command.onReply?.({ api, message, reply, config, nexusMessage }); }, sendMessage: async (text) => { const sentMessage = await api.sendMessage(text, message.threadID); return sentMessage; }, });
+        const reason = db.readDB().bannedUsers[message.senderID];
 
-  } else if (command.onChat && typeof command.onChat === 'function' && messageBody.toLowerCase() === command.config.name.toLowerCase()) {
+        api.sendMessage(`⚠️\n𝖠𝖼𝖼𝖾𝗌𝗌 𝖽𝖾𝗇𝗂𝖾𝖽 𝗒𝗈𝗎 𝗁𝖺𝗏𝖾 𝖻𝖾𝖾𝗇 𝖻𝖺𝗇𝗇𝖾𝖽 𝖿𝗋𝗈𝗆 𝗎𝗌𝗂𝗇𝗀 𝖻𝗈𝗍 𝙍𝙚𝙖𝙨𝙤𝙣: ${reason}\n𝙲𝙾𝙽𝚃𝙰𝙲𝚃 𝙱𝙾𝚃 𝙰𝙳𝙼𝙸𝙽`, message.threadID, message.messageID);
 
-    console.log(chalk.green(`Calling onChat function for command: ${command.config.name}`));
+        return;
 
-    const args = [];
+      }
 
-    command.onChat({ api, message, args, config, nexusMessage, onReply: async (reply) => { await command.onReply?.({ api, message, reply, config, nexusMessage }); }, sendMessage: async (text) => { const sentMessage = await api.sendMessage(text, message.threadID); return sentMessage; }, });
+      if (db.isBannedThread(message.threadID)) {
 
-  }
+        const reason = db.readDB().bannedThreads[message.threadID];
 
-}
+        api.sendMessage(`─━━⚠️\n𝖠𝖼𝖼𝖾𝗌𝗌 𝖽𝖾𝗇𝗂𝖾𝖽 𝖦𝗋𝗈𝗎𝗉 𝗁𝖺𝗏𝖾 𝖻𝖾𝖾𝗇 𝖻𝖺𝗇𝗇𝖾𝖽 𝖿𝗋𝗈𝗆 𝗎𝗌𝗂𝗇𝗀 𝖻𝗈𝗍 𝙍𝙚𝙖𝙨𝙤𝙣: ${reason}\n𝙲𝙾𝙽𝚃𝙰𝙲𝚃 𝙱𝙾𝚃 𝙰𝙳𝙼𝙸𝙽`, message.threadID, message.messageID);
 
-  if (messageBody === groupPrefix) {
+        return;
 
-  nexusMessage.reply(`That is the bot prefix. Type !help to see all commands.`);
+      }
+        
+  if (global.adminOnlyMode && !global.adminBot.includes(message.senderID)) {
+
+  nexusMessage.reply("⚠️.𝖡𝗈𝗍 𝗂𝗌 𝗈𝗇 𝖺𝖽𝗆𝗂𝗇 𝗈𝗇𝗅𝗒 𝗎𝗌𝖾 .");
 
   return;
 
 }
 
+      command.onChat({ api, message, args, config, nexusMessage, onReply: async (reply) => { await command.onReply?.({ api, message, reply, config, nexusMessage }); }, sendMessage: async (text) => { const sentMessage = await api.sendMessage(text, message.threadID); return sentMessage; }, });
+
+    } else if (command.onChat && typeof command.onChat === 'function' && messageBody.toLowerCase() === command.config.name.toLowerCase()) {
+
+      if (db.isBannedUser(message.senderID)) {
+
+        const reason = db.readDB().bannedUsers[message.senderID];
+
+        api.sendMessage(`⚠️\n𝖠𝖼𝖼𝖾𝗌𝗌 𝖽𝖾𝗇𝗂𝖾𝖽 𝗒𝗈𝗎 𝗁𝖺𝗏𝖾 𝖻𝖾𝖾𝗇 𝖻𝖺𝗇𝗇𝖾𝖽 𝖿𝗋𝗈𝗆 𝗎𝗌𝗂𝗇𝗀 𝖻𝗈𝗍 𝙍𝙚𝙖𝙨𝙤𝙣: ${reason}\n𝙲𝙾𝙽𝚃𝙰𝙲𝚃 𝙱𝙾𝚃 𝙰𝙳𝙼𝙸𝙽`, message.threadID, message.messageID);
+
+        return;
+
+      }
+
+      if (db.isBannedThread(message.threadID)) {
+
+        const reason = db.readDB().bannedThreads[message.threadID];
+
+        api.sendMessage(`⚠️\n𝖠𝖼𝖼𝖾𝗌𝗌 𝖽𝖾𝗇𝗂𝖾𝖽 𝗒𝗈𝗎 𝗁𝖺𝗏𝖾 𝖻𝖾𝖾𝗇 𝖻𝖺𝗇𝗇𝖾𝖽 𝖿𝗋𝗈𝗆 𝗎𝗌𝗂𝗇𝗀 𝖻𝗈𝗍 𝙍𝙚𝙖𝙨𝙤𝙣: ${reason}\n𝙲𝙾𝙽𝚃𝙰𝙲𝚃 𝙱𝙾𝚃 𝙰𝙳𝙼𝙸𝙽`, message.threadID, message.messageID);
+
+        return;
+
+      }
+
+        if (global.adminOnlyMode && !global.adminBot.includes(message.senderID)) {
+  nexusMessage.reply("⚠️𝖡𝗈𝗍 𝗂𝗌 𝗈𝗇 𝖺𝖽𝗆𝗂𝗇 𝗈𝗇𝗅𝗒 𝗎𝗌𝖾");
+
+  return;
+
+}
+      
+      
+      const args = [];
+
+      command.onChat({ api, message, args, config, nexusMessage, onReply: async (reply) => { await command.onReply?.({ api, message, reply, config, nexusMessage }); }, sendMessage: async (text) => { const sentMessage = await api.sendMessage(text, message.threadID); return sentMessage; }, });
+
+    }
+
+  }
+
+  if (messageBody === groupPrefix) {
+      
+    if (db.isBannedUser(message.senderID)) {
+
+        const reason = db.readDB().bannedUsers[message.senderID];
+
+        api.sendMessage(`⚠️\n𝖠𝖼𝖼𝖾𝗌𝗌 𝖽𝖾𝗇𝗂𝖾𝖽 𝗒𝗈𝗎 𝗁𝖺𝗏𝖾 𝖻𝖾𝖾𝗇 𝖻𝖺𝗇𝗇𝖾𝖽 𝖿𝗋𝗈𝗆 𝗎𝗌𝗂𝗇𝗀 𝖻𝗈𝗍 𝙍𝙚𝙖𝙨𝙤𝙣: ${reason}\n𝙲𝙾𝙽𝚃𝙰𝙲𝚃 𝙱𝙾𝚃 𝙰𝙳𝙼𝙸𝙽`, message.threadID, message.messageID);
+
+        return;
+
+      }
+
+      if (db.isBannedThread(message.threadID)) {
+
+        const reason = db.readDB().bannedThreads[message.threadID];
+
+        api.sendMessage(`─⚠️\n𝖠𝖼𝖼𝖾𝗌𝗌 𝖽𝖾𝗇𝗂𝖾𝖽 𝗒𝗈𝗎 𝗁𝖺𝗏𝖾 𝖻𝖾𝖾𝗇 𝖻𝖺𝗇𝗇𝖾𝖽 𝖿𝗋𝗈𝗆 𝗎𝗌𝗂𝗇𝗀 𝖻𝗈𝗍 𝙍𝙚𝙖𝙨𝙤𝙣: ${reason}\n𝙲𝙾𝙽𝚃𝙰𝙲𝚃 𝙱𝙾𝚃 𝙰𝙳𝙼𝙸𝙽`, message.threadID, message.messageID);
+
+        return;
+
+      }
+      
+    if (global.adminOnlyMode && !global.adminBot.includes(message.senderID)) {
+  nexusMessage.reply("⚠️𝖡𝗈𝗍 𝗂𝗌 𝗈𝗇 𝖺𝖽𝗆𝗂𝗇 𝗈𝗇𝗅𝗒 𝗎𝗌𝖾");
+
+  return;
+
+}
+
+    nexusMessage.reply(` 🛰𝖳𝖧𝖤 𝖡𝖮𝖳 𝖲𝖸𝖲𝖳𝖤𝖬 𝖮𝖯𝖤𝖱𝖠𝖳𝖨𝖮𝖭𝖠𝖫 𝖳𝖸𝖯𝖤 𝖧𝖤𝖫𝖯 𝖳𝖮 𝖲𝖤𝖤 𝖠𝖫𝖫 𝖢𝖮𝖬𝖬𝖠𝖭𝖣𝖲`);
+
+    return;
+
+  }
+
+  if (!messageBody.startsWith(groupPrefix)) {
+
+    return;
+
+  }
+    
 if (!messageBody.startsWith(groupPrefix)) {
 
     return;
@@ -213,6 +329,26 @@ if (!messageBody.startsWith(groupPrefix)) {
       (command.config.aliases && command.config.aliases.includes(commandName));
 
   });
+    
+if (db.isBannedUser(message.senderID)) {
+    const reason = db.readDB().bannedUsers[message.senderID];
+    api.sendMessage(`⚠️\n𝖠𝖼𝖼𝖾𝗌𝗌 𝖽𝖾𝗇𝗂𝖾𝖽 𝗒𝗈𝗎 𝗁𝖺𝗏𝖾 𝖻𝖾𝖾𝗇 𝖻𝖺𝗇𝗇𝖾𝖽 𝖿𝗋𝗈𝗆 𝗎𝗌𝗂𝗇𝗀 𝖻𝗈𝗍 𝙍𝙚𝙖𝙨𝙤𝙣: ${reason}\n𝙲𝙾𝙽𝚃𝙰𝙲𝚃 𝙱𝙾𝚃 𝙰𝙳𝙼𝙸𝙽`, message.threadID, message.messageID);
+    return;
+  }
+
+  if (db.isBannedThread(message.threadID)) {
+    const reason = db.readDB().bannedThreads[message.threadID];
+    api.sendMessage(`⚠️\n𝖠𝖼𝖼𝖾𝗌𝗌 𝖽𝖾𝗇𝗂𝖾𝖽 𝗒𝗈𝗎 𝗁𝖺𝗏𝖾 𝖻𝖾𝖾𝗇 𝖻𝖺𝗇𝗇𝖾𝖽 𝖿𝗋𝗈𝗆 𝗎𝗌𝗂𝗇𝗀 𝖻𝗈𝗍 𝙍𝙚𝙖𝙨𝙤𝙣: ${reason}\n𝙲𝙾𝙽𝚃𝙰𝙲𝚃 𝙱𝙾𝚃 𝙰𝙳𝙼𝙸𝙽`, message.threadID, message.messageID);
+    return;
+  }
+    
+ if (global.adminOnlyMode && !global.adminBot.includes(message.senderID)) {
+
+  nexusMessage.reply("⚠️𝖡𝗈𝗍 𝗂𝗌 𝗈𝗇 𝖺𝖽𝗆𝗂𝗇 𝗈𝗇𝗅𝗒 𝗎𝗌𝖾");
+
+  return;
+
+}
 
 if (command && command.onLoad) {
 
@@ -222,7 +358,7 @@ if (command && command.onLoad) {
 
   if (!command) {
 
-    nexusMessage.reply(`Command "${commandName}" not found. Type !help to see all commands.`);
+    nexusMessage.reply(`⛔𝖳𝖧𝖤  𝖢𝖮𝖬𝖬𝖠𝖭𝖣 "${commandName}"𝖨𝖲 𝖭𝖮𝖳 𝖨𝖭𝖲𝖳𝖠𝖫𝖫𝖤𝖣 𝖳𝖸𝖯𝖤 ${global.prefix} help`);
 
     return;
 
@@ -234,7 +370,7 @@ if (command && command.onLoad) {
 
   if (commandWithOnChat && !command.run && !command.onStart && !command.Nexus) {
 
-  nexusMessage.reply(`The command "${commandName}" works without a prefix. You can use it by typing "${commandName}" followed by your query without prefix.`);
+  nexusMessage.reply(`𝖳𝖧𝖤 𝖢𝖮𝖬𝖬𝖠𝖭𝖣 "${commandName}" 𝖶𝖮𝖱𝖪𝖲 𝖶𝖨𝖳𝖧𝖮𝖴𝖳 𝖯𝖱𝖤𝖥𝖨𝖷. 𝖸𝖮𝖴 𝖢𝖠𝖭 𝖴𝖲𝖤 𝖨𝖳 𝖡𝖸 𝖳𝖸𝖯𝖨𝖭𝖦 "${commandName}" 𝖥𝖮𝖫𝖫𝖮𝖶𝖤𝖣 𝖡𝖸 𝖸𝖮𝖴𝖱 𝖢𝖮𝖬𝖬𝖠𝖭𝖣.`);
 
   return;
 
@@ -242,7 +378,7 @@ if (command && command.onLoad) {
 
   if (command.config && command.config.permission === 1 && !config.adminIds.includes(message.senderID)) {
 
-    nexusMessage.reply('You do not have permission to use this command.');
+    nexusMessage.reply(`⛔𝖸𝖮𝖴 𝖣𝖮 𝖭𝖮𝖳 𝖧𝖠𝖵𝖤 𝖤𝖭𝖮𝖴𝖦𝖧 𝖯𝖤𝖱𝖬𝖨𝖲𝖲𝖨𝖮𝖭 𝖳𝖮 𝖴𝖲𝖤 𝖳𝖧𝖤 𝖢𝖮𝖬𝖬𝖠𝖭𝖣 `);
 
     return;
 
@@ -256,7 +392,7 @@ if (command.config && command.config.permission === 2) {
 
   if (!isAdminVar) {
 
-    nexusMessage.reply('You need to be a group admin to use this command.');
+    nexusMessage.reply(`⛔𝖸𝖮𝖴 𝖭𝖤𝖤𝖣 𝖳𝖮 𝖡𝖤 𝖦𝖱𝖮𝖴𝖯 𝖠𝖣𝖬𝖨𝖭 𝖳𝖮 𝖴𝖲𝖤 𝖳𝖧𝖨𝖲 𝖢𝖮𝖬𝖬𝖠𝖭𝖣`);
 
     return;
 
@@ -264,13 +400,16 @@ if (command.config && command.config.permission === 2) {
 
 }
 
+
+
+  try {
 if (command.config && command.config.cooldown) {
 
-  const cooldownTime = command.config.cooldown * 1000;
+  const cooldownTime = command.config.cooldown * 1000; // convert cooldown time to milliseconds
 
   const cooldownKey = `cooldown_${command.config.name}_${message.senderID}`;
 
-  const lastUsedTimestamp = db.get(cooldownKey);
+  const lastUsedTimestamp = await db.get(cooldownKey); // await the db.get() method
 
   if (lastUsedTimestamp) {
 
@@ -286,19 +425,11 @@ if (command.config && command.config.cooldown) {
 
   }
 
-  db.set(cooldownKey, Date.now());
-
-  setTimeout(() => {
-
-    delete db[cooldownKey];
-
-  }, cooldownTime);
+  await db.set(cooldownKey, Date.now()); // await the db.set() method
 
 }
-
-  try {
-
     setTimeout(async () => {
+        
 
       try {
 
@@ -341,10 +472,10 @@ if (command.config && command.config.cooldown) {
   return { ...sentMessage, replyMessageID: sentMessage.messageID };
 
 };
-
+          
        if (command.run) {
 
-  console.log(chalk.green(`Calling run function for command: ${command.config.name}`));
+
 
   await command.run({ api, message, args, config, nexusMessage, replyManager, onReply: async (reply) => {
 
@@ -360,7 +491,7 @@ if (command.config && command.config.cooldown) {
 
 } else if (command.onStart) {
 
-  console.log(chalk.green(`Calling run function for command: ${command.config.name}`));
+
 
       await command.onStart({
 
@@ -398,7 +529,7 @@ if (command.config && command.config.cooldown) {
 
   } else if (command.Nexus) {
 
-  console.log(chalk.green(`Calling run function for command: ${command.config.name}`));
+
 
   await command.Nexus({ api, message, args, config, nexusMessage, replyManager, onReply: async (reply) => {
 
@@ -424,7 +555,7 @@ if (command.config && command.config.cooldown) {
 
         console.error(chalk.red(`Error in command "${commandName}":`), error);
 
-        nexusMessage.reply(`Error in command "${commandName}": ${error.message}\nPlease report this error to the bot developer.`);
+        nexusMessage.reply(`❌"𝖤𝖱𝖱𝖮𝖱 𝖨𝖭 𝖳𝖧𝖤 𝖢𝖮𝖬𝖬𝖠𝖭𝖣${commandName}": ${error.message}\n𝖯𝖫𝖤𝖠𝖲𝖤 𝖱𝖤𝖯𝖮𝖱𝖳 𝖳𝖧𝖤 𝖤𝖱𝖱𝖮𝖱 𝖳𝖮 𝖡𝖮𝖳 𝖣𝖤𝖵𝖲.`);
 
       }
 
@@ -432,7 +563,7 @@ if (command.config && command.config.cooldown) {
 
   } catch (error) {
 
-  nexusMessage.reply(`Error in command "${commandName}": ${error.message}\nPlease report this error to the bot developer.`);
+  nexusMessage.reply(`❌"𝖤𝖱𝖱𝖮𝖱 𝖨𝖭 𝖳𝖧𝖤 𝖢𝖮𝖬𝖬𝖠𝖭𝖣${commandName}": ${error.message}\n𝖯𝖫𝖤𝖠𝖲𝖤 𝖱𝖤𝖯𝖮𝖱𝖳 𝖳𝖧𝖤 𝖤𝖱𝖱𝖮𝖱 𝖳𝖮 𝖡𝖮𝖳 𝖣𝖤𝖵𝖲.`);
 
 }
 
