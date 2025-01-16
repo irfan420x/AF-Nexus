@@ -1,5 +1,5 @@
 <img src="https://i.ibb.co/rcM6Dnr/mrfrankofc.jpg" width="1500">
-# Hey Everyone! <img src="https://media.giphy.com/media/hvRJCLFzcasrR4ia7z/giphy.gif" width="30">
+## Hey Everyone! <img src="https://media.giphy.com/media/hvRJCLFzcasrR4ia7z/giphy.gif" width="30">
 
 What's up! We're Frank Kaumba & Asta - two devs sharing the same account to build cool stuff together! <img src="https://media.giphy.com/media/WUlplcMpOCEmTGBtBW/giphy.gif" width="30">
 
